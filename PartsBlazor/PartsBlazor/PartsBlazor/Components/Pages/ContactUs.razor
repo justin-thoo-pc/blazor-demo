@@ -1,0 +1,238 @@
+﻿@page "/contact"
+@using PartsBlazor.Components.UI
+
+<PageTitle>Contact Us - PartsCheck</PageTitle>
+
+<div class="contact-container">
+    <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Have a question or feedback? We'd love to hear from you.</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-form-section">
+            <form @onsubmit="HandleSubmit">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="name"
+                        @bind="contactForm.Name" 
+                        disabled="@isSubmitting"
+                        placeholder="John Doe"
+                        required />
+                    @if (!IsValidName())
+                    {
+                        <span class="error">Name is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="email"
+                        @bind="contactForm.Email" 
+                        disabled="@isSubmitting"
+                        placeholder="john@example.com"
+                        required />
+                    @if (!IsValidEmail())
+                    {
+                        <span class="error">Please enter a valid email</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        id="phone"
+                        @bind="contactForm.Phone" 
+                        disabled="@isSubmitting"
+                        placeholder="(123) 456-7890" />
+                </div>
+
+                <div class="form-group">
+                    <label for="subject">Subject *</label>
+                    <select 
+                        id="subject"
+                        @bind="contactForm.Subject" 
+                        disabled="@isSubmitting"
+                        required>
+                        <option value="">-- Select a subject --</option>
+                        <option value="support">Technical Support</option>
+                        <option value="feedback">Feature Feedback</option>
+                        <option value="bug">Bug Report</option>
+                        <option value="sales">Sales Inquiry</option>
+                        <option value="other">Other</option>
+                    </select>
+                    @if (string.IsNullOrEmpty(contactForm.Subject))
+                    {
+                        <span class="error">Subject is required</span>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea 
+                        id="message"
+                        @bind="contactForm.Message" 
+                        disabled="@isSubmitting"
+                        placeholder="Tell us what's on your mind..."
+                        rows="6"
+                        required></textarea>
+                    @if (!IsValidMessage())
+                    {
+                        <span class="error">Message is required and must be at least 10 characters</span>
+                    }
+                </div>
+
+                <div class="form-actions">
+                    <button 
+                        type="submit" 
+                        disabled="@(!IsFormValid() || isSubmitting)"
+                        class="btn-primary">
+                        @(isSubmitting ? "Sending..." : "Send Message")
+                    </button>
+                    <a href="/" class="btn-secondary">Back to Home</a>
+                </div>
+
+                @if (showSuccessMessage)
+                {
+                    <div class="success-message">
+                        ✓ Thank you for your message! We'll get back to you shortly.
+                    </div>
+                }
+
+                @if (showErrorMessage)
+                {
+                    <div class="error-message">
+                        ✗ Something went wrong. Please try again later.
+                    </div>
+                }
+            </form>
+        </div>
+
+        <div class="contact-info-section">
+            <h2>Get in Touch</h2>
+
+            <div class="info-block">
+                <h3>📍 Address</h3>
+                <p>
+                    PartsCheck Inc.<br />
+                    123 Manufacturing Way<br />
+                    Brisbane, QLD 4000<br />
+                    Australia
+                </p>
+            </div>
+
+            <div class="info-block">
+                <h3>📞 Phone</h3>
+                <p>
+                    <a href="tel:+61-1234-5678">+61 (123) 456-7890</a><br />
+                    <small>Monday–Friday, 9 AM–5 PM AEST</small>
+                </p>
+            </div>
+
+            <div class="info-block">
+                <h3>📧 Email</h3>
+                <p>
+                    <a href="mailto:support@partscheck.com">support@partscheck.com</a><br />
+                    <a href="mailto:sales@partscheck.com">sales@partscheck.com</a>
+                </p>
+            </div>
+
+            <div class="info-block">
+                <h3>🕐 Business Hours</h3>
+                <p>
+                    Monday–Friday: 9:00 AM–5:00 PM<br />
+                    Saturday: 10:00 AM–2:00 PM<br />
+                    Sunday: Closed
+                </p>
+            </div>
+
+            <div class="info-block faq">
+                <h3>❓ FAQ</h3>
+                <p>
+                    <strong>Response time?</strong> We aim to respond within 24 hours.<br />
+                    <strong>Available integrations?</strong> Check our <a href="/integration-docs">integration docs</a>.<br />
+                    <strong>Need urgent help?</strong> Call our support line during business hours.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private class ContactForm
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Subject { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+    }
+
+    private ContactForm contactForm = new();
+    private bool isSubmitting = false;
+    private bool showSuccessMessage = false;
+    private bool showErrorMessage = false;
+
+    private bool IsValidName() => !string.IsNullOrWhiteSpace(contactForm.Name);
+
+    private bool IsValidEmail()
+    {
+        if (string.IsNullOrWhiteSpace(contactForm.Email)) return false;
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(contactForm.Email);
+            return addr.Address == contactForm.Email;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private bool IsValidMessage() => 
+        !string.IsNullOrWhiteSpace(contactForm.Message) && 
+        contactForm.Message.Length >= 10;
+
+    private bool IsFormValid() => 
+        IsValidName() && 
+        IsValidEmail() && 
+        !string.IsNullOrEmpty(contactForm.Subject) && 
+        IsValidMessage();
+
+    private async Task HandleSubmit()
+    {
+        if (!IsFormValid()) return;
+
+        isSubmitting = true;
+        showSuccessMessage = false;
+        showErrorMessage = false;
+
+        try
+        {
+            // Simulate API call (in real app, send to backend)
+            await Task.Delay(1000);
+            
+            // Log the form data (in real app, this would POST to an API)
+            Console.WriteLine($"Contact form submitted: {contactForm.Name}, {contactForm.Email}, {contactForm.Subject}");
+
+            showSuccessMessage = true;
+            contactForm = new(); // Reset form
+
+            // Auto-hide success message after 5 seconds
+            _ = Task.Delay(5000).ContinueWith(_ => showSuccessMessage = false);
+        }
+        catch
+        {
+            showErrorMessage = true;
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

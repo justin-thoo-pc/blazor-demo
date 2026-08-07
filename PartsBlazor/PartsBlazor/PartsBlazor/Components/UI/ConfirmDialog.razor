@@ -1,0 +1,27 @@
+﻿@rendermode InteractiveServer
+
+<div class="modal-overlay" @onclick="OnCancel">
+    <div class="modal-content" @onclick:stopPropagation>
+        <div class="modal-header">
+            <h3>Confirm Delete</h3>
+        </div>
+        <div class="modal-body">
+            <p>@Message</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary" @onclick="OnCancel">Cancel</button>
+            <button class="btn-danger" @onclick="OnConfirm">Delete</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = "Are you sure?";
+
+    [Parameter]
+    public EventCallback OnConfirm { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+}

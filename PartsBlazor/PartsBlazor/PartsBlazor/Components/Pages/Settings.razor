@@ -1,0 +1,57 @@
+﻿@page "/settings"
+
+<PageTitle>Settings - PartsCheck</PageTitle>
+
+<div class="page-container">
+    <h1>⚙️ Settings</h1>
+    <p>Customize your PartsCheck experience.</p>
+
+    <div class="settings-section">
+        <h2>User Preferences</h2>
+        <div class="settings-option">
+            <label>
+                <input type="checkbox" checked disabled />
+                Enable notifications
+            </label>
+        </div>
+        <div class="settings-option">
+            <label>
+                <input type="checkbox" disabled />
+                Dark mode
+            </label>
+        </div>
+    </div>
+
+    <div class="settings-section">
+        <h2>System Settings</h2>
+        <div class="settings-option">
+            <label>
+                Default items per page:
+                <select disabled>
+                    <option>10</option>
+                    <option>25</option>
+                    <option>50</option>
+                </select>
+            </label>
+        </div>
+        <div class="settings-option">
+            <label>
+                Default currency:
+                <select disabled>
+                    <option>AUD</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="settings-section">
+        <h2>Integrations</h2>
+        <p style="color: #999; font-size: 0.9rem;">
+            Integration settings coming in a future release.
+        </p>
+    </div>
+
+    <a href="/" class="back-link">← Back to Home</a>
+</div>

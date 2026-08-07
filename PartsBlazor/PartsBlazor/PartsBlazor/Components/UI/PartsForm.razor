@@ -1,0 +1,127 @@
+﻿@using PartsBlazor.Models
+@using System.ComponentModel.DataAnnotations
+
+@rendermode InteractiveServer
+
+<div class="modal-overlay" @onclick="OnCancel">
+    <div class="modal-content" @onclick:stopPropagation>
+        <div class="modal-header">
+            <h3>@(Part?.Id == null ? "Add Part" : "Edit Part")</h3>
+            <button class="close-btn" @onclick="OnCancel">✕</button>
+        </div>
+
+        <form @onsubmit="HandleSubmit">
+            <div class="form-group">
+                <label>SKU *</label>
+                <input type="text" @bind="Part.Sku" disabled="@isSubmitting" 
+                       placeholder="e.g., ABC-001" />
+                @if (!IsValidSku())
+                {
+                    <span class="error">SKU is required and must be 3-20 characters</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Name *</label>
+                <input type="text" @bind="Part.Name" disabled="@isSubmitting" 
+                       placeholder="e.g., Bearing A1" />
+                @if (!IsValidName())
+                {
+                    <span class="error">Name is required and max 80 characters</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Category *</label>
+                <select @bind="Part.Category" disabled="@isSubmitting">
+                    <option value="">-- Select --</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                </select>
+                @if (string.IsNullOrEmpty(Part.Category))
+                {
+                    <span class="error">Category is required</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Price ($) *</label>
+                <input type="number" @bind="Part.Price" disabled="@isSubmitting" 
+                       placeholder="0.00" step="0.01" />
+                @if (Part.Price <= 0)
+                {
+                    <span class="error">Price must be greater than 0</span>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Stock (Units) *</label>
+                <input type="number" @bind="Part.Stock" disabled="@isSubmitting" 
+                       placeholder="0" min="0" />
+                @if (Part.Stock < 0)
+                {
+                    <span class="error">Stock cannot be negative</span>
+                }
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" @bind="Part.Active" disabled="@isSubmitting" />
+                <label>Active</label>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" @onclick="OnCancel" disabled="@isSubmitting" class="btn-secondary">Cancel</button>
+                <button type="submit" disabled="@(!IsFormValid() || isSubmitting)" class="btn-primary">
+                    @(isSubmitting ? "Saving..." : "Save")
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Part Part { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<Part> OnSave { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+
+    private List<string> categories = new();
+    private bool isSubmitting = false;
+
+    protected override void OnInitialized()
+    {
+        if (Part.Category == null)
+            Part.Category = "";
+    }
+
+    private bool IsValidSku() => !string.IsNullOrWhiteSpace(Part.Sku) && 
+                                 Part.Sku.Length >= 3 && Part.Sku.Length <= 20;
+    
+    private bool IsValidName() => !string.IsNullOrWhiteSpace(Part.Name) && 
+                                  Part.Name.Length <= 80;
+    
+    private bool IsFormValid() => IsValidSku() && IsValidName() && 
+                                  !string.IsNullOrEmpty(Part.Category) && 
+                                  Part.Price > 0 && Part.Stock >= 0;
+
+    private async Task HandleSubmit()
+    {
+        if (!IsFormValid()) return;
+        
+        isSubmitting = true;
+        try
+        {
+            await OnSave.InvokeAsync(Part);
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

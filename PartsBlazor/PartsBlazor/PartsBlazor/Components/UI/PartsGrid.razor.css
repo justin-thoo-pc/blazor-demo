@@ -1,0 +1,28 @@
+﻿.grid-container { padding: 1rem; }
+.grid-toolbar { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.grid-toolbar input, .grid-toolbar select { padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+.grid-toolbar .btn-primary { background-color: #007bff; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
+.grid-toolbar .btn-primary:hover { background-color: #0056b3; }
+
+.parts-table { width: 100%; border-collapse: collapse; background: white; }
+.parts-table th { background-color: #f5f5f5; padding: 0.75rem; text-align: left; border-bottom: 2px solid #ddd; font-weight: 600; }
+.parts-table td { padding: 0.75rem; border-bottom: 1px solid #eee; }
+.parts-table tr:hover { background-color: #f9f9f9; }
+
+.badge { padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.85rem; }
+.badge.active { background-color: #d4edda; color: #155724; }
+.badge.inactive { background-color: #f8d7da; color: #721c24; }
+
+.btn-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; margin-right: 0.25rem; border: 1px solid #ccc; background-color: white; cursor: pointer; border-radius: 3px; }
+.btn-sm:hover { background-color: #f0f0f0; }
+.btn-sm.btn-danger { color: #dc3545; border-color: #dc3545; }
+.btn-sm.btn-danger:hover { background-color: #f8d7da; }
+
+.pagination { margin-top: 1.5rem; text-align: center; }
+.pagination button { padding: 0.5rem 1rem; margin: 0 0.5rem; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; }
+.pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.state-empty, .state-error {
+    background: white; padding: 2rem; text-align: center; border-radius: 4px; color: #666;
+}
+.state-error { background: #fff3cd; color: #856404; }

@@ -1,7 +1,49 @@
 ﻿@page "/"
+@page "/home"
+@using PartsBlazor.Components.UI
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Welcome to PartsCheck</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="welcome-container">
+    <div class="welcome-hero">
+        <h1>Welcome to PartsCheck</h1>
+        <p class="subtitle">Your unified parts management system</p>
+    </div>
 
-Welcome to your new app.
+    <div class="welcome-grid">
+        <div class="welcome-card">
+            <h2>📦 Parts Manager</h2>
+            <p>Manage your inventory with our intuitive CRUD interface. Add, edit, and delete parts with ease.</p>
+            <a href="/parts" class="card-link">Go to Parts Manager →</a>
+        </div>
+
+        <div class="welcome-card">
+            <h2>💬 Get in Touch</h2>
+            <p>Have questions or feedback? We'd love to hear from you. Reach out to our support team.</p>
+            <a href="/contact" class="card-link">Contact Us →</a>
+        </div>
+
+        <div class="welcome-card">
+            <h2>📊 Reports</h2>
+            <p>View detailed analytics and reports on your parts inventory and trends.</p>
+            <a href="/reports" class="card-link">View Reports →</a>
+        </div>
+
+        <div class="welcome-card">
+            <h2>⚙️ Settings</h2>
+            <p>Customize your experience with user preferences and system settings.</p>
+            <a href="/settings" class="card-link">Settings →</a>
+        </div>
+    </div>
+
+    <div class="welcome-info">
+        <h3>Quick Start Guide</h3>
+        <ul>
+            <li>Navigate to <strong>Parts Manager</strong> to view and manage your inventory</li>
+            <li>Use the sidebar menu to access different sections</li>
+            <li>Click <strong>+ Add Part</strong> to create new inventory items</li>
+            <li>Use filters and search to find parts quickly</li>
+            <li>Visit the <strong>Contact Us</strong> page for support</li>
+        </ul>
+    </div>
+</div>

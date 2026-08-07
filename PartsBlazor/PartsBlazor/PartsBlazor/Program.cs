@@ -8,6 +8,14 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+// Add services to the container.
+builder.Services.AddScoped<PartsBlazor.Services.PartsService>();
+builder.Services.AddHttpClient<PartsBlazor.Services.PartsService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:4000");
+    client.Timeout = TimeSpan.FromSeconds(10);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

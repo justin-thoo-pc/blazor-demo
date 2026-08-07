@@ -8,6 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="xunit" Version="2.*" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.*" />
+        <PackageReference Include="FluentAssertions" Version="6.*" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\PartsBlazor.Client\PartsBlazor.Client.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.8"/>
     </ItemGroup>

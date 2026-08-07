@@ -1,0 +1,36 @@
+﻿@rendermode InteractiveServer
+@inject NavigationManager Navigation
+
+<aside class="sidebar">
+    <nav>
+        <ul>
+            <li @onclick="@(() => Navigate("/"))" class="@(IsActive("/") ? "active" : "")">
+                <a href="/">🏠 Home</a>
+            </li>
+            <li @onclick="@(() => Navigate("/parts"))" class="@(IsActive("/parts") ? "active" : "")">
+                <a href="/parts">📦 Parts Manager</a>
+            </li>
+            <li @onclick="@(() => Navigate("/contact"))" class="@(IsActive("/contact") ? "active" : "")">
+                <a href="/contact">💬 Contact Us</a>
+            </li>
+            <li @onclick="@(() => Navigate("/reports"))" class="@(IsActive("/reports") ? "active" : "")">
+                <a href="/reports">📊 Reports</a>
+            </li>
+            <li @onclick="@(() => Navigate("/settings"))" class="@(IsActive("/settings") ? "active" : "")">
+                <a href="/settings">⚙️ Settings</a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+@code {
+    private void Navigate(string uri)
+    {
+        Navigation.NavigateTo(uri);
+    }
+
+    private bool IsActive(string path)
+    {
+        return Navigation.Uri.EndsWith(path);
+    }
+}

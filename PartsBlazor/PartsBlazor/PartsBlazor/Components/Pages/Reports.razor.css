@@ -1,0 +1,46 @@
+﻿.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-container h1 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.page-container p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.placeholder-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.placeholder-card h2 {
+    margin-top: 0;
+    color: #999;
+}
+
+.placeholder-card p {
+    color: #999;
+}
+
+.back-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

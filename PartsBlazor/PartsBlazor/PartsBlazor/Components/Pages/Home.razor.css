@@ -1,0 +1,99 @@
+﻿.welcome-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.welcome-hero {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+}
+
+.welcome-hero h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #666;
+    margin: 0;
+}
+
+.welcome-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.welcome-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.welcome-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.welcome-card h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.welcome-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.card-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+    transition: color 0.2s;
+}
+
+.card-link:hover {
+    color: #0056b3;
+}
+
+.welcome-info {
+    background: #f0f8ff;
+    border-left: 4px solid #007bff;
+    padding: 1.5rem;
+    border-radius: 4px;
+}
+
+.welcome-info h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.welcome-info ul {
+    color: #666;
+    line-height: 1.8;
+}
+
+.welcome-info li {
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .welcome-hero h1 {
+        font-size: 2rem;
+    }
+
+    .welcome-grid {
+        grid-template-columns: 1fr;
+    }
+}

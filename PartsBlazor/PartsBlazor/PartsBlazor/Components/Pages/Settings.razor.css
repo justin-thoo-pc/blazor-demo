@@ -1,0 +1,61 @@
+﻿.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-container h1 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.page-container p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.settings-section {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.settings-section h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.settings-option {
+    margin-bottom: 1rem;
+}
+
+.settings-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #666;
+}
+
+.settings-option input[type="checkbox"],
+.settings-option select {
+    margin-right: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.back-link {
+    display: inline-block;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
