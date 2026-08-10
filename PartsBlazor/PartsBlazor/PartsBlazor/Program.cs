@@ -1,12 +1,10 @@
-using PartsBlazor.Client.Pages;
 using PartsBlazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveServerComponents();
 
 // Add services to the container.
 builder.Services.AddScoped<PartsBlazor.Services.PartsService>();
@@ -21,11 +19,7 @@ builder.Services.AddHttpClient<PartsBlazor.Services.PartsService>(client =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseWebAssemblyDebugging();
-}
-else
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -39,8 +33,6 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
-    .AddInteractiveWebAssemblyRenderMode()
-    .AddAdditionalAssemblies(typeof(PartsBlazor.Client._Imports).Assembly);
+    .AddInteractiveServerRenderMode();
 
 app.Run();
