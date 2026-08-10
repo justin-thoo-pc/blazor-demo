@@ -10,9 +10,11 @@ builder.Services.AddRazorComponents()
 
 // Add services to the container.
 builder.Services.AddScoped<PartsBlazor.Services.PartsService>();
+var apiUrl = builder.Configuration["ApiUrl"]
+    ?? throw new InvalidOperationException("ApiUrl configuration value is not set.");
 builder.Services.AddHttpClient<PartsBlazor.Services.PartsService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:4000");
+    client.BaseAddress = new Uri(apiUrl);
     client.Timeout = TimeSpan.FromSeconds(10);
 });
 
