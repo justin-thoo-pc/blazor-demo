@@ -5,8 +5,7 @@ using PartsBlazor.Models;
 
 public class PartsService(HttpClient httpClient)
 {
-    // TODO define in environment variable
-    private const string ApiUrl = "http://localhost:4000/parts";
+    private const string ApiUrl = "parts";
 
     // Fetch paginated parts
     public async Task<(List<Part> Items, int Total)> GetPartsAsync(

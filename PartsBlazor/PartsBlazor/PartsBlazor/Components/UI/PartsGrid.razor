@@ -1,6 +1,8 @@
 ﻿@using PartsBlazor.Models
 @using PartsBlazor.Services
 @inject PartsService PartsService
+@inject IJSRuntime JS
+@implements IAsyncDisposable
 
 @rendermode InteractiveServer
 
@@ -100,11 +102,21 @@
     private string filterText = "";
     private string categoryFilter = "";
     private string? sortField = null;
+    private IJSObjectReference? _module;
 
     protected override async Task OnInitializedAsync()
     {
         categories = PartsService.GetCategories();
         await LoadParts();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JS.InvokeAsync<IJSObjectReference>(
+                "import", "./Components/UI/PartsGrid.razor.js");
+        }
     }
 
     private async Task LoadParts()
@@ -113,17 +125,20 @@
         {
             isLoading = true;
             hasError = false;
+            await Log("Loading parts", "page", currentPage, "sort", sortField, "filter", filterText, "category", categoryFilter);
             var (loadedParts, total) = await PartsService.GetPartsAsync(
-                currentPage, 10, sortField, 
+                currentPage, 10, sortField,
                 string.IsNullOrEmpty(filterText) ? null : filterText,
                 string.IsNullOrEmpty(categoryFilter) ? null : categoryFilter);
-            
+
             parts = loadedParts;
             totalPages = (total + 9) / 10; // ceiling division
+            await Log("Loaded parts", parts.Count, "of", total);
         }
-        catch
+        catch (Exception ex)
         {
             hasError = true;
+            await Log("Failed to load parts", ex.Message);
         }
         finally
         {
@@ -135,6 +150,7 @@
     {
         sortField = sortField == field ? null : field;
         currentPage = 1;
+        await Log("Sorting by", field);
         await LoadParts();
     }
 
@@ -155,19 +171,22 @@
         {
             if (string.IsNullOrEmpty(part.Id))
             {
+                await Log("Creating part", part.Sku);
                 await PartsService.CreatePartAsync(part);
             }
             else
             {
+                await Log("Updating part", part.Id);
                 await PartsService.UpdatePartAsync(part.Id, part);
             }
             ShowAddForm = false;
             editingPart = null;
             await LoadParts();
         }
-        catch
+        catch (Exception ex)
         {
             hasError = true;
+            await Log("Failed to save part", ex.Message);
         }
     }
 
@@ -189,15 +208,17 @@
         {
             try
             {
+                await Log("Deleting part", partToDelete.Id);
                 await PartsService.DeletePartAsync(partToDelete.Id);
                 showDeleteConfirm = false;
                 partToDelete = null;
                 await LoadParts();
             }
-            catch
+            catch (Exception ex)
             {
                 hasError = true;
                 showDeleteConfirm = false;
+                await Log("Failed to delete part", ex.Message);
             }
         }
     }
@@ -233,5 +254,21 @@
         sortField = null;
         currentPage = 1;
         await LoadParts();
+    }
+
+    private async Task Log(params object?[] args)
+    {
+        if (_module is not null)
+        {
+            await _module.InvokeVoidAsync("log", args);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            await _module.DisposeAsync();
+        }
     }
 }

@@ -1,0 +1,14 @@
+{
+  "parts": [
+    {
+      "id": "1",
+      "sku": "FAS-001",
+      "name": "M5 Bolt",
+      "category": "Fastener",
+      "price": 2.50,
+      "stock": 100,
+      "active": true,
+      "updatedAt": "2026-08-07T10:00:00Z"
+    }
+  ]
+}
