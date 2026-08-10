@@ -19,4 +19,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.8"/>
     </ItemGroup>
 
+    <Target Name="CompileTypeScript" BeforeTargets="Build">
+        <Exec Command="npm install" Condition="!Exists('node_modules')" WorkingDirectory="$(MSBuildProjectDirectory)" />
+        <Exec Command="npm run build" WorkingDirectory="$(MSBuildProjectDirectory)" />
+    </Target>
+
 </Project>
