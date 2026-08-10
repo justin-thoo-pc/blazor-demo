@@ -58,3 +58,8 @@ nunit-*.xml
 
 # Jetbrains
 .idea/
+
+# Node / TypeScript build output
+node_modules/
+PartsBlazor/PartsBlazor/PartsBlazor/Components/**/*.razor.js
+PartsBlazor/PartsBlazor/PartsBlazor/Components/**/*.razor.js.map
