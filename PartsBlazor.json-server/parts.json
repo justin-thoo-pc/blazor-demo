@@ -29,6 +29,56 @@
       "stock": 25,
       "active": true,
       "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "CQy0SPv",
+      "sku": "BEAR-002",
+      "name": "Bearing 2",
+      "category": "Bearing",
+      "price": 35,
+      "stock": 25,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "CQy0SUQ",
+      "sku": "BEAR-003",
+      "name": "Bearing 3",
+      "category": "Bearing",
+      "price": 40,
+      "stock": 12,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "AQy0SUv",
+      "sku": "BEAR-004",
+      "name": "Bearing 4",
+      "category": "Bearing",
+      "price": 12.5,
+      "stock": 25,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "CQyMiUv",
+      "sku": "BEAR-005",
+      "name": "Bearing 5",
+      "category": "Bearing",
+      "price": 32,
+      "stock": 5,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "C990SUv",
+      "sku": "BEAR-006",
+      "name": "Bearing 6",
+      "category": "Bearing",
+      "price": 7,
+      "stock": 25,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
     }
   ]
 }
