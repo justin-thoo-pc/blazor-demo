@@ -5,8 +5,8 @@
 
 @rendermode InteractiveServer
 
-<div class="modal-overlay" @onclick="OnCancel">
-    <div class="modal-content" @onclick:stopPropagation>
+<div class="modal-overlay" @onmousedown="@(() => mouseDownOnOverlay = true)" @onclick="HandleOverlayClick">
+    <div class="modal-content" @onclick:stopPropagation @onmousedown:stopPropagation>
         <div class="modal-header">
             <h3>@(Part?.Id == null ? "Add Part" : "Edit Part")</h3>
             <button class="close-btn" @onclick="OnCancel">✕</button>
@@ -95,6 +95,14 @@
 
     private List<string> categories = [];
     private bool isSubmitting = false;
+    private bool mouseDownOnOverlay = false;
+
+    private async Task HandleOverlayClick()
+    {
+        if (!mouseDownOnOverlay) return;
+        mouseDownOnOverlay = false;
+        await OnCancel.InvokeAsync();
+    }
 
     protected override void OnInitialized()
     {
