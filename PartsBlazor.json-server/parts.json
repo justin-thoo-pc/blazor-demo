@@ -16,7 +16,7 @@
       "name": "Test Widget",
       "category": "Gasket",
       "price": 19.99,
-      "stock": 5,
+      "stock": 6,
       "active": true,
       "updatedAt": "0001-01-01T00:00:00"
     },

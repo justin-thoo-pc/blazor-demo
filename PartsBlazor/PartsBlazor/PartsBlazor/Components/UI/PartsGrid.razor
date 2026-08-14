@@ -99,6 +99,7 @@
     
     private int currentPage = 1;
     private int totalPages = 1;
+    private const int pageSize = 5;
     private string filterText = "";
     private string categoryFilter = "";
     private string? sortField = null;
@@ -127,12 +128,12 @@
             hasError = false;
             await Log("Loading parts", "page", currentPage, "sort", sortField, "filter", filterText, "category", categoryFilter);
             var (loadedParts, total) = await PartsService.GetPartsAsync(
-                currentPage, 10, sortField,
+                currentPage, pageSize, sortField,
                 string.IsNullOrEmpty(filterText) ? null : filterText,
                 string.IsNullOrEmpty(categoryFilter) ? null : categoryFilter);
 
             parts = loadedParts;
-            totalPages = (total + 9) / 10; // ceiling division
+            totalPages = (total + pageSize - 1) / pageSize; // ceiling division
             await Log("Loaded parts", parts.Count, "of", total);
         }
         catch (Exception ex)
