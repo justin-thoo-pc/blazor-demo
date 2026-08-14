@@ -33,8 +33,10 @@ This repo hosts a Blazor Web App (server project `PartsBlazor` + WebAssembly cli
 The app expects the API at `http://localhost:4000` (see `appsettings.json` → `ApiUrl`). Start it before running the app:
 
 ```bash
-npx json-server --watch PartsBlazor.json-server/parts.json --port 4000
+npx json-server@0.17.4 --watch PartsBlazor.json-server/parts.json --port 4000
 ```
+
+> **Note:** `json-server`'s current `latest` tag resolves to a 1.x rewrite with a breaking API (paginated responses are wrapped in a `{data: [...]}` envelope instead of a flat array with an `X-Total-Count` header, and `_limit` is renamed to `_per_page`). `PartsService.cs` targets the classic 0.x API, so the version must be pinned to `0.17.4` — don't drop the version pin here.
 
 Leave this running in a terminal (or a Rider "npm"/shell run configuration) alongside the app.
 

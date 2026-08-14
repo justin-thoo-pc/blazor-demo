@@ -5,10 +5,30 @@
       "sku": "FAS-001",
       "name": "M5 Bolt",
       "category": "Fastener",
-      "price": 2.50,
+      "price": 2.5,
       "stock": 100,
       "active": true,
-      "updatedAt": "2026-08-07T10:00:00Z"
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "r76Zwra",
+      "sku": "TST-001",
+      "name": "Test Widget",
+      "category": "Gasket",
+      "price": 19.99,
+      "stock": 5,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
+    },
+    {
+      "id": "CQy0SUv",
+      "sku": "BEAR-001",
+      "name": "Bearing 1",
+      "category": "Bearing",
+      "price": 30,
+      "stock": 25,
+      "active": true,
+      "updatedAt": "0001-01-01T00:00:00"
     }
   ]
 }

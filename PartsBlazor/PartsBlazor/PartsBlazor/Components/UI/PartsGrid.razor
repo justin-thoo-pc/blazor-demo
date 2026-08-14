@@ -17,7 +17,7 @@
             }
         </select>
         <button @onclick="ResetFilters">Reset</button>
-        <button class="btn-primary" @onclick="() => ShowAddForm = true">+ Add Part</button>
+        <button class="btn-primary" @onclick="ShowAdd">+ Add Part</button>
     </div>
 
     @if (isLoading)
@@ -26,7 +26,7 @@
     }
     else if (parts.Count == 0)
     {
-        <div class="state-empty">No parts found. <a href="#" @onclick="() => ShowAddForm = true">Add one now.</a></div>
+        <div class="state-empty">No parts found. <a href="#" @onclick="ShowAdd">Add one now.</a></div>
     }
     else if (hasError)
     {
@@ -152,6 +152,12 @@
         currentPage = 1;
         await Log("Sorting by", field);
         await LoadParts();
+    }
+
+    private void ShowAdd()
+    {
+        editingPart = new Part();
+        ShowAddForm = true;
     }
 
     private void EditPart(Part part)

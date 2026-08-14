@@ -1,5 +1,7 @@
 ﻿@using PartsBlazor.Models
+@using PartsBlazor.Services
 @using System.ComponentModel.DataAnnotations
+@inject PartsService PartsService
 
 @rendermode InteractiveServer
 
@@ -91,11 +93,12 @@
     [Parameter]
     public EventCallback OnCancel { get; set; }
 
-    private List<string> categories = new();
+    private List<string> categories = [];
     private bool isSubmitting = false;
 
     protected override void OnInitialized()
     {
+        categories = PartsService.GetCategories();
         if (Part.Category == null)
             Part.Category = "";
     }
