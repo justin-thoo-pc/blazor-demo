@@ -12,6 +12,9 @@ public class Part
     public DateTime UpdatedAt { get; set; }
 }
 
+// A known part from the catalogue, used to autocomplete the SKU field
+public record PartSuggestion(string Sku, string Name, string Category);
+
 public enum PartCategory
 {
     Fastener,

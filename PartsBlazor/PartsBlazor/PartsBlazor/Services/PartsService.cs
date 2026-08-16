@@ -62,6 +62,38 @@ public class PartsService(HttpClient httpClient)
     }
 
     // Get categories (hardcoded for demo)
-    public List<string> GetCategories() => 
+    public List<string> GetCategories() =>
         Enum.GetNames(typeof(PartCategory)).ToList();
+
+    // Known part catalogue used for SKU autocomplete (hardcoded for demo)
+    private static readonly List<PartSuggestion> Catalog =
+    [
+        new("BLT-001", "Hex Head Bolt M10x50", "Fastener"),
+        new("NUT-002", "Nylon Lock Nut M10", "Fastener"),
+        new("WHB-003", "Front Wheel Hub Bearing", "Bearing"),
+        new("PLB-004", "Pilot Bearing 15mm", "Bearing"),
+        new("CRS-005", "Crankshaft Front Oil Seal", "Seal"),
+        new("AXS-006", "Rear Axle Shaft Seal", "Seal"),
+        new("HGK-007", "Cylinder Head Gasket", "Gasket"),
+        new("EMG-008", "Exhaust Manifold Gasket", "Gasket"),
+        new("GRS-009", "Lithium Complex Wheel Bearing Grease", "Lubricant"),
+        new("ATF-010", "Automatic Transmission Fluid Dexron VI", "Lubricant")
+    ];
+
+    // Match the search term against SKU or name, SKU prefix matches first
+    public List<PartSuggestion> SearchCatalog(string? term, int limit = 8)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+            return [];
+
+        term = term.Trim();
+
+        return Catalog
+            .Where(p => p.Sku.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                        p.Name.Contains(term, StringComparison.OrdinalIgnoreCase))
+            .OrderByDescending(p => p.Sku.StartsWith(term, StringComparison.OrdinalIgnoreCase))
+            .ThenBy(p => p.Sku, StringComparer.OrdinalIgnoreCase)
+            .Take(limit)
+            .ToList();
+    }
 }

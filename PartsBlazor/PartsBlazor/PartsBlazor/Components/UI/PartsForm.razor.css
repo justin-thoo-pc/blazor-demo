@@ -75,6 +75,68 @@ form {
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 }
 
+.autocomplete {
+    position: relative;
+}
+
+.suggestions {
+    position: absolute;
+    top: calc(100% + 2px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    max-height: 15rem;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.suggestion {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.suggestion:last-child {
+    border-bottom: none;
+}
+
+.suggestion.active {
+    background-color: #eef5ff;
+}
+
+.suggestion-sku {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.875rem;
+}
+
+.suggestion-name {
+    color: #555;
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.suggestion-category {
+    font-size: 0.75rem;
+    color: #666;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    padding: 0.125rem 0.5rem;
+    white-space: nowrap;
+}
+
 .form-group.checkbox {
     display: flex;
     align-items: center;

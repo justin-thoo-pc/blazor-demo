@@ -14,9 +14,35 @@
 
         <form @onsubmit="HandleSubmit">
             <div class="form-group">
-                <label>SKU *</label>
-                <input type="text" @bind="Part.Sku" disabled="@isSubmitting" 
-                       placeholder="e.g., ABC-001" />
+                <label id="sku-label">SKU *</label>
+                <div class="autocomplete">
+                    <input type="text" value="@Part.Sku" disabled="@isSubmitting"
+                           placeholder="e.g., ABC-001" autocomplete="off"
+                           role="combobox" aria-autocomplete="list" aria-labelledby="sku-label"
+                           aria-expanded="@(ShowSuggestions ? "true" : "false")" aria-controls="sku-suggestions"
+                           aria-activedescendant="@(activeIndex >= 0 ? $"sku-suggestion-{activeIndex}" : null)"
+                           @oninput="OnSkuInput" @onkeydown="OnSkuKeyDown"
+                           @onfocus="OnSkuFocus" @onblur="CloseSuggestions" />
+                    @if (ShowSuggestions)
+                    {
+                        <ul class="suggestions" id="sku-suggestions" role="listbox" @onmousedown:preventDefault>
+                            @for (var i = 0; i < suggestions.Count; i++)
+                            {
+                                var index = i;
+                                var suggestion = suggestions[i];
+                                <li class="suggestion @(index == activeIndex ? "active" : "")"
+                                    id="sku-suggestion-@index" role="option"
+                                    aria-selected="@(index == activeIndex ? "true" : "false")"
+                                    @onclick="() => SelectSuggestion(suggestion)"
+                                    @onmouseover="() => activeIndex = index">
+                                    <span class="suggestion-sku">@suggestion.Sku</span>
+                                    <span class="suggestion-name">@suggestion.Name</span>
+                                    <span class="suggestion-category">@suggestion.Category</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
                 @if (!IsValidSku())
                 {
                     <span class="error">SKU is required and must be 3-20 characters</span>
@@ -97,6 +123,77 @@
     private bool isSubmitting = false;
     private bool mouseDownOnOverlay = false;
 
+    private List<PartSuggestion> suggestions = [];
+    private bool suggestionsOpen = false;
+    private int activeIndex = -1;
+    private bool suppressSubmit = false;
+
+    private bool ShowSuggestions => suggestionsOpen && suggestions.Count > 0;
+
+    private void OnSkuInput(ChangeEventArgs e)
+    {
+        Part.Sku = e.Value?.ToString() ?? "";
+        suggestions = PartsService.SearchCatalog(Part.Sku);
+        suggestionsOpen = true;
+        activeIndex = -1;
+    }
+
+    private void OnSkuFocus()
+    {
+        suggestions = PartsService.SearchCatalog(Part.Sku);
+        suggestionsOpen = suggestions.Count > 0;
+        activeIndex = -1;
+    }
+
+    private void OnSkuKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            CloseSuggestions();
+            return;
+        }
+
+        if (!ShowSuggestions)
+        {
+            // ArrowDown re-opens the list after Escape or a selection
+            if (e.Key == "ArrowDown")
+                OnSkuFocus();
+            return;
+        }
+
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                activeIndex = (activeIndex + 1) % suggestions.Count;
+                break;
+            case "ArrowUp":
+                activeIndex = activeIndex <= 0 ? suggestions.Count - 1 : activeIndex - 1;
+                break;
+            case "Enter" when activeIndex >= 0:
+                // Take the highlighted suggestion instead of submitting the form
+                suppressSubmit = true;
+                SelectSuggestion(suggestions[activeIndex]);
+                break;
+            case "Tab":
+                CloseSuggestions();
+                break;
+        }
+    }
+
+    private void SelectSuggestion(PartSuggestion suggestion)
+    {
+        Part.Sku = suggestion.Sku;
+        Part.Name = suggestion.Name;
+        Part.Category = suggestion.Category;
+        CloseSuggestions();
+    }
+
+    private void CloseSuggestions()
+    {
+        suggestionsOpen = false;
+        activeIndex = -1;
+    }
+
     private async Task HandleOverlayClick()
     {
         if (!mouseDownOnOverlay) return;
@@ -123,8 +220,15 @@
 
     private async Task HandleSubmit()
     {
+        // Enter was used to pick a suggestion, not to save the form
+        if (suppressSubmit)
+        {
+            suppressSubmit = false;
+            return;
+        }
+
         if (!IsFormValid()) return;
-        
+
         isSubmitting = true;
         try
         {

@@ -2,10 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartsBlazor", "PartsBlazor\PartsBlazor\PartsBlazor.csproj", "{D655DE77-27F3-4DF7-904E-A98A97860FB4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PartsBlazor", "PartsBlazor", "{05EDC739-E8B6-2964-C06E-BEFAA8FE53E1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PartsBlazor", "PartsBlazor", "{DFAC6527-3586-241A-A6AD-B46DEBDDE313}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartsBlazor.Tests", "PartsBlazor\PartsBlazor\PartsBlazor.Tests\PartsBlazor.Tests.csproj", "{5587EFE6-FE1C-4C4D-951E-12E8146B662D}"
 EndProject
 Global
@@ -45,9 +41,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{DFAC6527-3586-241A-A6AD-B46DEBDDE313} = {05EDC739-E8B6-2964-C06E-BEFAA8FE53E1}
-		{5587EFE6-FE1C-4C4D-951E-12E8146B662D} = {DFAC6527-3586-241A-A6AD-B46DEBDDE313}
 	EndGlobalSection
 EndGlobal

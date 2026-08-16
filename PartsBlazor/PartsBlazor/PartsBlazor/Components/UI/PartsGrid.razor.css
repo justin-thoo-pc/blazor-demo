@@ -18,7 +18,7 @@
 .btn-sm.btn-danger { color: #dc3545; border-color: #dc3545; }
 .btn-sm.btn-danger:hover { background-color: #f8d7da; }
 
-.pagination { margin-top: 1.5rem; text-align: center; }
+.pagination { margin-top: 1.5rem; text-align: center; align-items: center; }
 .pagination button { padding: 0.5rem 1rem; margin: 0 0.5rem; border: 1px solid #ccc; background: white; cursor: pointer; border-radius: 4px; }
 .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
 
