@@ -197,6 +197,7 @@
             {
                 await Log("Creating part", part.Sku);
                 await PartsService.CreatePartAsync(part);
+                await RecordItemAdded();
             }
             else
             {
@@ -313,6 +314,15 @@
         catch (OperationCanceledException)
         {
             // Superseded by a newer toast, or the component went away.
+        }
+    }
+
+    private async Task RecordItemAdded()
+    {
+        if (_module is not null)
+        {
+            var total = await _module.InvokeAsync<int>("recordItemAdded");
+            await Log("Parts added in this browser", total);
         }
     }
 
