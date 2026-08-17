@@ -1,15 +1,24 @@
 # blazor-demo
 Partscheck framework bake-off using Blazor
 
-This repo hosts a Blazor Web App (server project `PartsBlazor` + WebAssembly client `PartsBlazor.Client`) backed by a `json-server` mock API.
+This repo hosts a Blazor Web App (single ASP.NET Core project `PartsBlazor`) backed by a `json-server` mock API.
 
 ## Project layout
 
 - `PartsBlazor/PartsBlazor.sln` — solution file, open this in Rider.
-- `PartsBlazor/PartsBlazor/PartsBlazor` — server project (ASP.NET Core host, runs the app).
-- `PartsBlazor/PartsBlazor/PartsBlazor.Client` — Blazor WebAssembly client project.
+- `PartsBlazor/PartsBlazor/PartsBlazor` — the app project (ASP.NET Core host, Razor components, TypeScript).
+- `PartsBlazor/PartsBlazor/PartsBlazor.Tests` — xUnit tests (excluded from the app project's compile via `PartsBlazor.csproj`).
 - `PartsBlazor.json-server/parts.json` — mock data served via [json-server](https://github.com/typicode/json-server), used as the app's backing API (`ApiUrl` in `appsettings.json`, default `http://localhost:4000`).
 - TypeScript lives next to the Razor component it belongs to, e.g. `Components/UI/PartsGrid.razor.ts`, and is compiled by `tsc` to a matching `.razor.js` file alongside it (see `tsconfig.json`'s `include`). Don't hand-edit the generated `.razor.js` / `.razor.js.map` files — edit the `.ts` source.
+
+## Architecture / render mode
+
+Interactivity is configured **per page/component**, and every interactive component uses `@rendermode InteractiveServer` (`PartsGrid`, `PartsForm`, `ConfirmDialog`, `Header`, `Sidebar`, `ContactUs`). `Program.cs` registers only `AddInteractiveServerComponents()` / `AddInteractiveServerRenderMode()` — there is **no WebAssembly project**, so nothing runs client-side except the hand-written TypeScript. See `DesignDecisions/004.Interactivity-Mode-Decision.md` for the reasoning, the alternatives considered, and the deployment consequences (sticky sessions, WebSocket support).
+
+Two consequences worth knowing when debugging:
+
+- **UI events aren't HTTP requests.** Clicks, keystrokes, and form submits travel as frames over the SignalR WebSocket at `/_blazor?id=...`, and the re-rendered DOM diff comes back the same way. They won't appear as rows in Chrome's Network tab — filter to **WS**, click the `_blazor` row, and read the **Messages** tab (with DevTools open *before* the page loads).
+- **Calls to json-server come from the server, not the browser.** `Services/PartsService.cs` is a server-side typed `HttpClient`; there is no `fetch`/`XHR` anywhere in the Razor or TypeScript. To watch API traffic, look at the json-server console rather than browser DevTools. This also means json-server needs no CORS config and its URL is never exposed to the client.
 
 ## Prerequisites
 
