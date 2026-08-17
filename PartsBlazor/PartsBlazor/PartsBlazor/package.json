@@ -2,8 +2,10 @@
   "name": "partsblazor",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "build": "tsc",
+    "test": "node --test \"PartsBlazor.Tests/**/*.test.ts\"",
     "watch": "tsc --watch --preserveWatchOutput",
     "watch:dotnet": "dotnet watch run",
     "dev": "concurrently -n tsc,dotnet -c blue,green \"npm:watch\" \"npm:watch:dotnet\""

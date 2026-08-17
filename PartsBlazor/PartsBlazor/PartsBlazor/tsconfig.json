@@ -9,7 +9,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
-    "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
     "isolatedModules": true,
     "skipLibCheck": true
   },
